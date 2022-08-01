@@ -38,6 +38,7 @@ decide.
 - vagrant up
 - vagrant ssh (optional)
 
+![WordPress Welcome](wordpress_welcome.webp)
 
 ## Credentials
 
