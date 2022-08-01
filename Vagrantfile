@@ -1,6 +1,6 @@
 LOCKED_2004_BOX_VERSION = "20211026.0.0"
 WORDPRESS_VM_SSH_PORT = 10322
-
+WORDPRESS_VERSION = "-5.8.2-en_GB"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
@@ -32,7 +32,7 @@ apt-get install -y apache2 \
 
 mkdir -p /srv/www
 chown www-data: /srv/www
-curl https://en-gb.wordpress.org/wordpress-5.8.2-en_GB.tar.gz | sudo -u www-data tar zx -C /srv/www
+curl https://en-gb.wordpress.org/wordpress#{WORDPRESS_VERSION}.tar.gz | sudo -u www-data tar zx -C /srv/www
 openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -days 365 -nodes -x509 \
     -subj "/CN=localhost" \
     -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
