@@ -22,16 +22,6 @@ jobs:
 
     runs-on: ubuntu-22.04
 
-#    services:
-#      mysql:
-#        image: mariadb:10.8.3-jammy
-#        env:
-#          MYSQL_ROOT_PASSWORD: password
-#          MYSQL_DATABASE: wordpress
-#        ports:
-#            - '3306:3306'
-#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.10
@@ -116,17 +106,21 @@ jobs:
 
     - name: Initialise WordPress and MySQL
       run: |
-        sudo mysql -uroot -proot -h 127.0.0.1 < wpdbsetup.sql
+        sudo mysql -uroot -proot < wpdbsetup.sql
         sudo -u www-data cp wp-config.php /srv/www/wordpress/wp-config.php
 
     - name: Check ports 3
       run: |
         sudo ss -tulpn
 
-    - name: Test TLS Server
+    - name: Test TLS Server ignore certs
       run: |
         curl -k https://localhost
+    - name: Test TLS Server with cert
+      run: |
         curl -i /etc/ssl/certs/apache-selfsigned.crt https://localhost
+    - name: Test TLS Server without a cert
+      run: |
         curl https://localhost
 
 
