@@ -75,7 +75,8 @@ jobs:
         sudo a2ensite wordpress
         sudo a2enconf ssl-params
         sudo a2dissite 000-default
-        sudo systemctl reload apache2
+        sudo apachectl stop
+        sudo systemctl start apache2
 
     - name: Setup UFW
       run: |
