@@ -14,6 +14,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  WORDPRESS_VERSION: "-5.8.2-en_GB"
+
 jobs:
   build:
 
@@ -21,8 +24,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      env:
-        WORDPRESS_VERSION: "-5.8.2-en_GB"
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
@@ -64,7 +65,7 @@ jobs:
       run: |
         mkdir -p /srv/www
         chown www-data: /srv/www
-        curl https://en-gb.wordpress.org/wordpress${{WORDPRESS_VERSION}}.tar.gz | sudo -u www-data tar zx -C /srv/www
+        curl "https://en-gb.wordpress.org/wordpress${{WORDPRESS_VERSION}}.tar.gz" | sudo -u www-data tar zx -C /srv/www
         openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -days 365 -nodes -x509 \
             -subj "/CN=localhost" \
             -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
