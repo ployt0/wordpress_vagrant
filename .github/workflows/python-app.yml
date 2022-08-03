@@ -62,17 +62,11 @@ jobs:
                                 php-zip \
                                 imagemagick
 
-    - name: Check ports 2
-      run: |
-        sudo ss -tulpn
-
-
     - name: Check mysql
       run: |
         sudo systemctl enable mysql.service
         sudo systemctl start mysql.service
         sudo systemctl status mysql.service
-
 
     - name: Setup Apache
       run: |
@@ -109,20 +103,12 @@ jobs:
         sudo mysql -uroot -proot < wpdbsetup.sql
         sudo -u www-data cp wp-config.php /srv/www/wordpress/wp-config.php
 
-    - name: Check ports 3
-      run: |
-        sudo ss -tulpn
-
-    - name: Test TLS Server ignore certs
-      run: |
-        curl -k https://localhost
-
     - name: Test TLS Server with cert in situ
       run: |
         curl --cacert /etc/ssl/certs/apache-selfsigned.crt https://localhost
 
     - name: Test TLS Server without a cert
       run: |
-        curl https://localhost
+        curl http://localhost
 
 
