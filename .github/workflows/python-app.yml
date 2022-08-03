@@ -20,7 +20,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Install apache
+    - name: Install server packages
       run: |
         sudo apt-get update
         sudo apt-get install -y apache2 \
@@ -57,15 +57,16 @@ jobs:
                                 php-mbstring \
                                 php-mysql \
                                 php-xml \
-                                php-zip
+                                php-zip \
+                                imagemagick
 
 
     - name: Follow script
       run: |
         sudo mkdir -p /srv/www
         sudo chown www-data: /srv/www
-        curl "https://en-gb.wordpress.org/wordpress${{env.WORDPRESS_VERSION}}.tar.gz" | sudo -u www-data tar zx -C /srv/www
-        openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -days 365 -nodes -x509 \
+        sudo curl "https://en-gb.wordpress.org/wordpress${{env.WORDPRESS_VERSION}}.tar.gz" | sudo -u www-data tar zx -C /srv/www
+        sudo openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -days 365 -nodes -x509 \
             -subj "/CN=localhost" \
             -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
         cp /vagrant/ssl-params.conf /etc/apache2/conf-available/ssl-params.conf
