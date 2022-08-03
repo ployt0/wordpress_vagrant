@@ -42,13 +42,12 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Install packages
+    - name: Install apache
       run: |
         apt-get update
         apt-get install -y apache2 \
                            ghostscript \
                            libapache2-mod-php \
-                           mysql-server \
                            php \
                            php-bcmath \
                            php-curl \
@@ -60,6 +59,9 @@ jobs:
                            php-xml \
                            php-zip
 
+    - name: Install mysql
+      run: |
+        apt-get install -y mysql-server
 
     - name: Follow script
       run: |
