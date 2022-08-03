@@ -107,7 +107,7 @@ jobs:
 
     - name: Initialise WordPress and MySQL
       run: |
-        sudo mysql -u root < wpdbsetup.sql
+        sudo mysql -u root -h 127.0.0.1 < wpdbsetup.sql
         sudo -u www-data cp wp-config.php /srv/www/wordpress/wp-config.php
 
     - name: Check ports 3
