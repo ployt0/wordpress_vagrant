@@ -1,0 +1,79 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.png'
+      - '**.jpg'
+      - '**.webp'
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v2
+      env:
+        WORDPRESS_VERSION: "-5.8.2-en_GB"
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest coverage
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Install packages
+      run: |
+        apt-get update
+        apt-get install -y apache2 \
+                           ghostscript \
+                           libapache2-mod-php \
+                           mysql-server \
+                           php \
+                           php-bcmath \
+                           php-curl \
+                           php-imagick \
+                           php-intl \
+                           php-json \
+                           php-mbstring \
+                           php-mysql \
+                           php-xml \
+                           php-zip
+
+
+    - name: Follow script
+      run: |
+        mkdir -p /srv/www
+        chown www-data: /srv/www
+        curl https://en-gb.wordpress.org/wordpress${{WORDPRESS_VERSION}}.tar.gz | sudo -u www-data tar zx -C /srv/www
+        openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -days 365 -nodes -x509 \
+            -subj "/CN=localhost" \
+            -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
+        cp /vagrant/ssl-params.conf /etc/apache2/conf-available/ssl-params.conf
+        cp /vagrant/wordpress.conf /etc/apache2/sites-available/wordpress.conf
+        a2enmod ssl
+        a2enmod headers
+        a2enmod rewrite
+        a2ensite wordpress
+        a2enconf ssl-params
+        a2dissite 000-default
+        systemctl reload apache2
