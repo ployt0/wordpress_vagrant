@@ -75,7 +75,6 @@ jobs:
         sudo a2ensite wordpress
         sudo a2enconf ssl-params
         sudo a2dissite 000-default
-        sudo apachectl stop
         sudo systemctl start apache2
 
     - name: Setup UFW
@@ -88,7 +87,7 @@ jobs:
         sudo ufw default deny incoming
         sudo ufw allow 'Apache Full'
         sudo ufw delete allow 'Apache'
-        sudo echo "y" | ufw enable
+        sudo echo "y" | sudo ufw enable
 
     - name: Initialise WordPress and MySQL
       run: |
