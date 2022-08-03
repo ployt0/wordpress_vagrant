@@ -116,9 +116,15 @@ jobs:
     - name: Test TLS Server ignore certs
       run: |
         curl -k https://localhost
-    - name: Locate couple of cert for us
+    - name: Pull cert
       run: |
         echo quit | openssl s_client -showcerts -servername "localhost" -connect localhost:443 > self-signed-cacert.crt
+
+    - name: Compare certs
+      run: |
+        cat /etc/ssl/certs/apache-selfsigned.crt
+        cat self-signed-cacert.crt
+
     - name: Test TLS Server with cert we requested via HTTPS
       run: |
         cat self-signed-cacert.crt
