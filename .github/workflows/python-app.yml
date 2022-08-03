@@ -42,6 +42,10 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+    - name: Check ports 1
+      run: |
+        sudo ss -tulpn
+
     - name: Install server packages
       run: |
         sudo apt-get update
@@ -91,7 +95,17 @@ jobs:
 
     - name: Initialise WordPress and MySQL
       run: |
-        sudo mysql -u root < /vagrant/wpdbsetup.sql
-        sudo -u www-data cp /vagrant/wp-config.php /srv/www/wordpress/wp-config.php
+        sudo mysql -u root < wpdbsetup.sql
+        sudo -u www-data cp wp-config.php /srv/www/wordpress/wp-config.php
+
+    - name: Check ports 2
+      run: |
+        sudo ss -tulpn
+
+    - name: Test TLS Server
+      run: |
+        curl -k https://localhost
+        curl -i /etc/ssl/certs/apache-selfsigned.crt https://localhost
+        curl https://localhost
 
 
