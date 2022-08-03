@@ -44,29 +44,26 @@ jobs:
 
     - name: Install apache
       run: |
-        apt-get update
-        apt-get install -y apache2 \
-                           ghostscript \
-                           libapache2-mod-php \
-                           php \
-                           php-bcmath \
-                           php-curl \
-                           php-imagick \
-                           php-intl \
-                           php-json \
-                           php-mbstring \
-                           php-mysql \
-                           php-xml \
-                           php-zip
+        sudo apt-get update
+        sudo apt-get install -y apache2 \
+                                ghostscript \
+                                libapache2-mod-php \
+                                php \
+                                php-bcmath \
+                                php-curl \
+                                php-imagick \
+                                php-intl \
+                                php-json \
+                                php-mbstring \
+                                php-mysql \
+                                php-xml \
+                                php-zip
 
-    - name: Install mysql
-      run: |
-        apt-get install -y mysql-server
 
     - name: Follow script
       run: |
-        mkdir -p /srv/www
-        chown www-data: /srv/www
+        sudo mkdir -p /srv/www
+        sudo chown www-data: /srv/www
         curl "https://en-gb.wordpress.org/wordpress${{env.WORDPRESS_VERSION}}.tar.gz" | sudo -u www-data tar zx -C /srv/www
         openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -days 365 -nodes -x509 \
             -subj "/CN=localhost" \
