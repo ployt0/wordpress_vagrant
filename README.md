@@ -37,8 +37,13 @@ decide.
 - cd wordpress_vagrant
 - vagrant up
 - vagrant ssh (optional)
+- browse to https://localhost:8541 for first setup:
 
 ![WordPress Welcome](wordpress_welcome.webp)
+
+- alternatively save and restore wp-config and the generated sql to bypass
+    this manual step. **IMPORTANT** the saved SQL is specific to your host,
+    or `site_url`: https://localhost:8541.
 
 ## Credentials
 
@@ -49,11 +54,10 @@ decide.
 ## Test and Operation
 
 Use the `WORDPRESS_VM_SSH_PORT` variable at the top of the Vagrantfile to
-connect from your dev machine:
+connect from your dev machine via ssh.
 
-https://localhost:10322
-
-that will port forward into port 443 of the VM where WordPress will prompt
-you to install it.
+Whereas, `https://localhost:8541`, is the address for pointing your browser
+to the secure site, via port forwarding to 443 inside the VM. Here, WordPress
+will prompt you to install it.
 
 
