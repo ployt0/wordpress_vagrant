@@ -16,7 +16,6 @@ apt-get update
 # php-imagick and php-gd are the choices for automatic resizing of uploaded
 # media. imagick is bigger but better.
 apt-get install -y apache2 \
-                   ghostscript \
                    libapache2-mod-php \
                    mysql-server \
                    php \
