@@ -5,12 +5,24 @@ presented at the URL above.
 
 Something I distilled before finally purging that README was that I wrote
 at length about backup strategies. Logical and physical. Both leave the media
-directory not backed up. So I turned my attention to that through various
-endeavours and just used `mysqldump` for backup.
+directory not backed up. So I turned my attention to that, through various
+endeavours. Ultimately, though, plain `mysqldump` is my go-to backup command.
 
 ## What's included
 
-MySQL, WordPress, Apache, UFW (firewall), TLS certificate.
+- MySQL
+- WordPress
+- Apache
+- UFW (firewall)
+- TLS certificate
+
+## What's not included
+
+- php-imagick
+- php-gd
+
+The user ~~must~~ should install either to get image resizing and broader
+imaging support.
 
 # README
 
