@@ -1,3 +1,5 @@
+![python-app workflow](https://github.com/ployt0/wordpress_vagrant/actions/workflows/python-app.yml/badge.svg)
+
 This Vagrantfile was created as I documented it [here](https://silverbullets.co.uk/ci-cd/securing-a-lamp-vps/).
 
 I kept the notes in this README but they were too long and are much better 
