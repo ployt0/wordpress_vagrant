@@ -1,4 +1,4 @@
-![python-app workflow](https://github.com/ployt0/wordpress_vagrant/actions/workflows/python-app.yml/badge.svg)
+![CI workflow](https://github.com/ployt0/wordpress_vagrant/actions/workflows/CI.yml/badge.svg)
 
 This Vagrantfile was created as I documented it [here](https://silverbullets.co.uk/ci-cd/securing-a-lamp-vps/).
 
