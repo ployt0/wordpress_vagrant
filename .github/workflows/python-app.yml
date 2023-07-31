@@ -46,7 +46,7 @@ jobs:
         DEFAULT_WP_VERSION: '-5.8.2-en_GB'
       run: |
         echo "PY_VERS=${{ github.event.inputs.python_version || env.DEFAULT_PY_VERSION }}" >> $GITHUB_ENV
-        echo "WORDPRESS_VERSION=${{ github.event.inputs.python_version || env.DEFAULT_WP_VERSION }}" >> $GITHUB_ENV
+        echo "WORDPRESS_VERSION=${{ github.event.inputs.wp_version || env.DEFAULT_WP_VERSION }}" >> $GITHUB_ENV
 
 
     - name: Set up Python ${{ env.PY_VERS }}
